@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>APT29 CTI Pipeline — Sarmad Farooq</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d1117;
+    --bg2: #161b22;
+    --bg3: #1c2128;
+    --bg4: #21262d;
+    --border: #30363d;
+    --border2: #3d444d;
+    --accent: #58a6ff;
+    --accent2: #388bfd;
+    --green: #3fb950;
+    --green2: #238636;
+    --orange: #d29922;
+    --red: #f85149;
+    --purple: #bc8cff;
+    --teal: #39d353;
+    --text: #e6edf3;
+    --text2: #8b949e;
+    --text3: #6e7681;
+    --font-mono: 'JetBrains Mono', monospace;
+    --font-head: 'Syne', sans-serif;
+    --font-body: 'Inter', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ── TOP NAV ── */
+  nav {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    height: 56px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .nav-brand {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .nav-brand span { color: var(--accent); }
+  .nav-links { display: flex; gap: 4px; margin-left: auto; }
+  .nav-link {
+    font-size: 13px;
+    color: var(--text2);
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: all .15s;
+    cursor: pointer;
+  }
+  .nav-link:hover { background: var(--bg4); color: var(--text); }
+  .nav-link.active { color: var(--text); }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 48px 0 0;
+  }
+  .hero-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+  .breadcrumb {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text2);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .breadcrumb a { color: var(--accent); text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb-sep { color: var(--text3); }
+
+  .hero-title {
+    font-family: var(--font-head);
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--text);
+    line-height: 1.2;
+    margin-bottom: 12px;
+    letter-spacing: -0.5px;
+  }
+  .hero-title .highlight { color: var(--accent); }
+  .hero-subtitle {
+    font-size: 15px;
+    color: var(--text2);
+    max-width: 640px;
+    margin-bottom: 24px;
+  }
+
+  .badge-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 28px;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    font-family: var(--font-mono);
+    border: 1px solid;
+  }
+  .badge-blue   { background: rgba(88,166,255,.12); border-color: rgba(88,166,255,.3); color: #58a6ff; }
+  .badge-green  { background: rgba(63,185,80,.12); border-color: rgba(63,185,80,.3); color: #3fb950; }
+  .badge-orange { background: rgba(210,153,34,.12); border-color: rgba(210,153,34,.3); color: #d29922; }
+  .badge-purple { background: rgba(188,140,255,.12); border-color: rgba(188,140,255,.3); color: #bc8cff; }
+  .badge-red    { background: rgba(248,81,73,.12); border-color: rgba(248,81,73,.3); color: #f85149; }
+  .badge-teal   { background: rgba(57,211,83,.12); border-color: rgba(57,211,83,.3); color: #39d353; }
+
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; display: inline-block; }
+
+  .tab-bar {
+    display: flex;
+    gap: 0;
+    border-top: 1px solid var(--border);
+    margin-top: 8px;
+  }
+  .tab {
+    padding: 10px 18px;
+    font-size: 13px;
+    color: var(--text2);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all .15s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .tab.active { color: var(--text); border-bottom-color: #f78166; }
+  .tab:hover:not(.active) { color: var(--text); }
+  .tab-count {
+    background: var(--bg4);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1px 6px;
+    font-size: 11px;
+    font-family: var(--font-mono);
+    color: var(--text2);
+  }
+
+  /* ── MAIN LAYOUT ── */
+  .main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 32px 32px;
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 24px;
+    align-items: start;
+  }
+
+  /* ── README AREA ── */
+  .readme-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .readme-header {
+    background: var(--bg3);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 16px;
+    font-size: 13px;
+    color: var(--text2);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+  }
+  .readme-header svg { opacity: .6; }
+  .readme-body { padding: 28px 32px; }
+
+  /* ── TYPOGRAPHY in README ── */
+  .readme-body h1 {
+    font-family: var(--font-head);
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 6px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .readme-body h2 {
+    font-family: var(--font-head);
+    font-size: 19px;
+    font-weight: 700;
+    color: var(--text);
+    margin: 32px 0 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .readme-body h3 {
+    font-family: var(--font-head);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    margin: 20px 0 8px;
+  }
+  .readme-body p { color: var(--text2); margin-bottom: 14px; font-size: 14px; line-height: 1.75; }
+  .readme-body p strong { color: var(--text); font-weight: 600; }
+  .readme-body a { color: var(--accent); text-decoration: none; }
+  .readme-body a:hover { text-decoration: underline; }
+  .readme-body ul, .readme-body ol {
+    padding-left: 20px;
+    margin-bottom: 14px;
+    color: var(--text2);
+    font-size: 14px;
+  }
+  .readme-body li { margin-bottom: 5px; }
+  .readme-body code {
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2px 6px;
+    color: #f0883e;
+  }
+  .readme-body pre {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    overflow-x: auto;
+    margin: 16px 0;
+    position: relative;
+  }
+  .readme-body pre code {
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 13px;
+    color: var(--text);
+    display: block;
+    line-height: 1.6;
+  }
+  .pre-lang {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    font-size: 11px;
+    color: var(--text3);
+    font-family: var(--font-mono);
+  }
+
+  /* ── ALERT BOXES ── */
+  .alert {
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin: 16px 0;
+    font-size: 13.5px;
+    border-left: 4px solid;
+    display: flex;
+    gap: 10px;
+  }
+  .alert-info   { background: rgba(88,166,255,.08); border-color: var(--accent); color: #7dc2ff; }
+  .alert-warn   { background: rgba(210,153,34,.08); border-color: var(--orange); color: #e3b341; }
+  .alert-success{ background: rgba(63,185,80,.08); border-color: var(--green); color: #56d364; }
+  .alert-icon { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+
+  /* ── TABLE ── */
+  .readme-body table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin: 16px 0;
+  }
+  .readme-body th {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    padding: 8px 12px;
+    text-align: left;
+    color: var(--text);
+    font-weight: 600;
+    font-size: 12.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+  .readme-body td {
+    border: 1px solid var(--border);
+    padding: 8px 12px;
+    color: var(--text2);
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+  }
+  .readme-body tr:hover td { background: var(--bg3); }
+
+  /* ── PIPELINE VISUAL ── */
+  .pipeline {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    flex-wrap: wrap;
+    margin: 20px 0;
+    gap: 4px;
+  }
+  .pipe-step {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 12px;
+    font-family: var(--font-mono);
+    color: var(--text2);
+    white-space: nowrap;
+    transition: all .2s;
+  }
+  .pipe-step:hover { border-color: var(--accent); color: var(--accent); }
+  .pipe-step.active { background: rgba(88,166,255,.1); border-color: var(--accent); color: var(--accent); }
+  .pipe-arrow { color: var(--text3); font-size: 14px; padding: 0 2px; }
+
+  /* ── STIX ENTITY GRID ── */
+  .stix-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+    margin: 16px 0;
+  }
+  .stix-card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+    transition: border-color .2s;
+  }
+  .stix-card:hover { border-color: var(--border2); }
+  .stix-type {
+    font-size: 10px;
+    font-family: var(--font-mono);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 4px;
+  }
+  .stix-name {
+    font-size: 13px;
+    color: var(--text);
+    font-weight: 500;
+  }
+  .stix-desc { font-size: 12px; color: var(--text3); margin-top: 4px; }
+
+  /* type colors */
+  .type-ta  .stix-type { color: #f85149; }
+  .type-ta  { border-left: 3px solid #f85149; }
+  .type-mal .stix-type { color: #ff7b72; }
+  .type-mal { border-left: 3px solid #ff7b72; }
+  .type-ap  .stix-type { color: #d2a8ff; }
+  .type-ap  { border-left: 3px solid #d2a8ff; }
+  .type-ioc .stix-type { color: #ffa657; }
+  .type-ioc { border-left: 3px solid #ffa657; }
+  .type-vuln .stix-type { color: #f78166; }
+  .type-vuln { border-left: 3px solid #f78166; }
+  .type-inf  .stix-type { color: #7ee787; }
+  .type-inf  { border-left: 3px solid #7ee787; }
+  .type-coa  .stix-type { color: #79c0ff; }
+  .type-coa  { border-left: 3px solid #79c0ff; }
+  .type-camp .stix-type { color: #e3b341; }
+  .type-camp { border-left: 3px solid #e3b341; }
+
+  /* ── STATS ROW ── */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin: 20px 0;
+  }
+  .stat-box {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px;
+    text-align: center;
+  }
+  .stat-num {
+    font-family: var(--font-head);
+    font-size: 28px;
+    font-weight: 800;
+    margin-bottom: 2px;
+  }
+  .stat-label { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.5px; font-family: var(--font-mono); }
+
+  /* ── SIDEBAR ── */
+  .sidebar { display: flex; flex-direction: column; gap: 16px; }
+  .sidebar-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .sidebar-header {
+    padding: 10px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    border-bottom: 1px solid var(--border);
+  }
+  .sidebar-body { padding: 14px 16px; }
+  .sidebar-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+  .sidebar-row:last-child { border-bottom: none; }
+  .sidebar-key { color: var(--text3); flex-shrink: 0; width: 80px; font-family: var(--font-mono); font-size: 11.5px; }
+  .sidebar-val { color: var(--text2); font-size: 13px; }
+  .sidebar-val strong { color: var(--text); }
+
+  /* file tree */
+  .file-tree { list-style: none; padding: 0; }
+  .file-tree li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 0;
+    font-size: 13px;
+    color: var(--text2);
+    border-bottom: 1px solid var(--border);
+    font-family: var(--font-mono);
+  }
+  .file-tree li:last-child { border-bottom: none; }
+  .file-tree li .file-icon { font-size: 14px; flex-shrink: 0; }
+  .file-tree li a { color: var(--accent); text-decoration: none; }
+  .file-tree li a:hover { text-decoration: underline; }
+
+  /* lang bar */
+  .lang-bar { height: 8px; border-radius: 4px; display: flex; overflow: hidden; margin: 12px 0 10px; gap: 2px; }
+  .lang-seg { height: 100%; border-radius: 2px; }
+  .lang-legend { display: flex; flex-wrap: wrap; gap: 10px; }
+  .lang-item { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--text2); }
+  .lang-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+  /* contrib graph mini */
+  .contrib-row { display: flex; gap: 2px; flex-wrap: wrap; }
+  .contrib-day { width: 10px; height: 10px; border-radius: 2px; background: var(--bg4); }
+  .contrib-day.l1 { background: #0e4429; }
+  .contrib-day.l2 { background: #006d32; }
+  .contrib-day.l3 { background: #26a641; }
+  .contrib-day.l4 { background: #39d353; }
+
+  /* ── IOC TABLE in README ── */
+  .ioc-tag {
+    display: inline-block;
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-family: var(--font-mono);
+    font-weight: 600;
+  }
+  .ioc-ip   { background: rgba(248,81,73,.15); color: #f85149; }
+  .ioc-dom  { background: rgba(210,153,34,.15); color: #d29922; }
+  .ioc-hash { background: rgba(188,140,255,.15); color: #bc8cff; }
+  .ioc-url  { background: rgba(88,166,255,.15); color: #58a6ff; }
+  .ioc-cve  { background: rgba(248,129,74,.15); color: #ffa657; }
+
+  /* ── TIMELINE ── */
+  .timeline { position: relative; padding-left: 20px; margin: 16px 0; }
+  .timeline::before { content: ''; position: absolute; left: 6px; top: 8px; bottom: 8px; width: 1px; background: var(--border); }
+  .tl-item { position: relative; margin-bottom: 16px; }
+  .tl-dot { position: absolute; left: -17px; top: 5px; width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--bg2); }
+  .tl-date { font-size: 11px; font-family: var(--font-mono); color: var(--text3); margin-bottom: 3px; }
+  .tl-title { font-size: 13.5px; font-weight: 600; color: var(--text); }
+  .tl-body { font-size: 12.5px; color: var(--text2); margin-top: 2px; }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 24px 32px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--text3);
+    font-family: var(--font-mono);
+    margin-top: 48px;
+  }
+  footer a { color: var(--text2); text-decoration: none; }
+  footer a:hover { color: var(--accent); }
+
+  /* ── DIVIDER ── */
+  .divider { height: 1px; background: var(--border); margin: 8px 0; }
+
+  /* ── SCROLL REVEAL ── */
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+  .reveal { animation: fadeUp .4s ease both; }
+  .reveal:nth-child(1) { animation-delay: .05s; }
+  .reveal:nth-child(2) { animation-delay: .10s; }
+  .reveal:nth-child(3) { animation-delay: .15s; }
+  .reveal:nth-child(4) { animation-delay: .20s; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .main { grid-template-columns: 1fr; padding: 20px 16px; }
+    .stats-row { grid-template-columns: repeat(2, 1fr); }
+    .sidebar { order: -1; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="nav-brand">
+    <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><path d="M12 2L3 7l9 5 9-5-9-5zM3 17l9 5 9-5M3 12l9 5 9-5" stroke="#58a6ff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span>sarmad-farooq</span> / <span style="color:var(--text)">APT29-CTI-STIX21-Pipeline</span>
+  </div>
+  <div class="nav-links">
+    <a class="nav-link active" href="#">
+      <svg width="14" height="14" fill="none" viewBox="0 0 24 24" style="display:inline;vertical-align:-2px"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" stroke="currentColor" stroke-width="2"/></svg>
+      Code
+    </a>
+    <a class="nav-link" href="#">Issues <span class="tab-count">0</span></a>
+    <a class="nav-link" href="#">Pull Requests <span class="tab-count">0</span></a>
+    <a class="nav-link" href="#">
+      ⭐ Star
+    </a>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="breadcrumb">
+      <a href="#">sarmad-farooq</a>
+      <span class="breadcrumb-sep">/</span>
+      <strong style="color:var(--text)">APT29-CTI-STIX21-Pipeline</strong>
+    </div>
+
+    <h1 class="hero-title">
+      🛡️ <span class="highlight">LLM-Based</span> Cyber Threat Intelligence<br>Extraction &amp; STIX 2.1 Generation
+    </h1>
+    <p class="hero-subtitle">
+      An end-to-end pipeline that ingests a CTI PDF report, extracts structured threat entities using GPT-4o, maps them to STIX 2.1 objects, and exports a validated knowledge graph — applied to the APT29 / Cozy Bear threat actor.
+    </p>
+
+    <div class="badge-row">
+      <span class="badge badge-blue"><span class="dot"></span> Python 3.10</span>
+      <span class="badge badge-green"><span class="dot"></span> Google Colab</span>
+      <span class="badge badge-orange"><span class="dot"></span> GPT-4o</span>
+      <span class="badge badge-purple"><span class="dot"></span> STIX 2.1</span>
+      <span class="badge badge-red"><span class="dot"></span> APT29 / Cozy Bear</span>
+      <span class="badge badge-teal"><span class="dot"></span> Cybersecurity</span>
+      <span class="badge badge-blue">Activity 4</span>
+      <span class="badge badge-blue">Dr. Zafar</span>
+    </div>
+
+    <div class="tab-bar">
+      <div class="tab active">
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24"><path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z" stroke="currentColor" stroke-width="2"/><polyline points="13 2 13 9 20 9" stroke="currentColor" stroke-width="2"/></svg>
+        README
+      </div>
+      <div class="tab">📓 Notebook <span class="tab-count">27 cells</span></div>
+      <div class="tab">📦 STIX Bundle <span class="tab-count">66 objects</span></div>
+      <div class="tab">📄 CTI Report <span class="tab-count">PDF</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── MAIN ── -->
+<div class="main">
+
+  <!-- ── README ── -->
+  <div class="readme-card reveal">
+    <div class="readme-header">
+      <svg width="14" height="14" fill="none" viewBox="0 0 24 24"><path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z" stroke="currentColor" stroke-width="1.8"/><polyline points="13 2 13 9 20 9" stroke="currentColor" stroke-width="1.8"/></svg>
+      README.md
+    </div>
+    <div class="readme-body">
+
+      <h1>🛡️ APT29 CTI Pipeline — STIX 2.1 Knowledge Graph</h1>
+
+      <div class="alert alert-info">
+        <span class="alert-icon">ℹ</span>
+        <div><strong>Course:</strong> Cyber Security Lab &nbsp;|&nbsp; <strong>Activity:</strong> 4 &nbsp;|&nbsp; <strong>Student:</strong> Sarmad Farooq (25i-7722) &nbsp;|&nbsp; <strong>Instructor:</strong> Dr. Zafar &nbsp;|&nbsp; <strong>Institute:</strong> FAST-NUCES</div>
+      </div>
+
+      <!-- STATS -->
+      <div class="stats-row">
+        <div class="stat-box">
+          <div class="stat-num" style="color:#58a6ff">66</div>
+          <div class="stat-label">STIX Objects</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num" style="color:#3fb950">34</div>
+          <div class="stat-label">Relationships</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num" style="color:#d29922">10</div>
+          <div class="stat-label">ATT&amp;CK TTPs</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num" style="color:#bc8cff">9</div>
+          <div class="stat-label">IOC Indicators</div>
+        </div>
+      </div>
+
+      <h2>
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="#58a6ff" stroke-width="2"/><line x1="12" y1="8" x2="12" y2="12" stroke="#58a6ff" stroke-width="2"/><line x1="12" y1="16" x2="12.01" y2="16" stroke="#58a6ff" stroke-width="2"/></svg>
+        Overview
+      </h2>
+      <p>This project implements a fully automated <strong>Cyber Threat Intelligence (CTI) extraction pipeline</strong> in Google Colab. It processes the APT29 "Cozy Bear" CTI report (Operation PHANTOM BEAR) through a multi-stage pipeline: raw PDF ingestion → text extraction → LLM-based entity extraction → STIX 2.1 structured output → JSON bundle export and graph visualization.</p>
+
+      <p>The system leverages <strong>GPT-4o</strong> with carefully engineered system prompts to perform Named Entity Recognition (NER) on unstructured threat intelligence text, identifying threat actors, malware families, network indicators, MITRE ATT&CK techniques, vulnerabilities, and relationships between entities. All extracted data is mapped to the <strong>STIX 2.1 standard</strong> and serialized as an interoperable JSON bundle.</p>
+
+      <h2>
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24"><polyline points="16 3 21 3 21 8" stroke="#3fb950" stroke-width="2"/><line x1="4" y1="20" x2="21" y2="3" stroke="#3fb950" stroke-width="2"/><polyline points="21 16 21 21 16 21" stroke="#3fb950" stroke-width="2"/><line x1="15" y1="15" x2="21" y2="21" stroke="#3fb950" stroke-width="2"/></svg>
+        Pipeline Architecture
+      </h2>
+
+      <div class="pipeline">
+        <div class="pipe-step">📄 PDF Upload</div>
+        <span class="pipe-arrow">→</span>
+        <div class="pipe-step">📝 Text Extraction</div>
+        <span class="pipe-arrow">→</span>
+        <div class="pipe-step">🧹 Clean &amp; Chunk</div>
+        <span class="pipe-arrow">→</span>
+        <div class="pipe-step">🤖 GPT-4o NER</div>
+        <span class="pipe-arrow">→</span>
+        <div class="pipe-step">🔄 STIX Mapping</div>
+        <span class="pipe-arrow">→</span>
+        <div class="pipe-step">📦 Bundle Export</div>
+        <span class="pipe-arrow">→</span>
+        <div class="pipe-step">✅ Validation</div>
+        <span class="pipe-arrow">→</span>
+        <div class="pipe-step active">🌐 Graph Viz</div>
+      </div>
+
+      <pre><code class="pre-lang">python</code><code># Quick usage — run in Google Colab
+# Step 1: Install dependencies
+!pip install -q pdfplumber openai stix2 requests ipywidgets
+
+# Step 2: Upload your CTI PDF
+from google.colab import files
+uploaded = files.upload()
+
+# Step 3: Extract &amp; process
+from pipeline import extract_cti_entities, map_to_stix
+entities = extract_cti_entities(pdf_path)
+bundle   = map_to_stix(entities)
+
+# Step 4: Export STIX 2.1 JSON
+with open("cti_report.json", "w") as f:
+    f.write(bundle.serialize(pretty=True))
+print(f"✅ Exported {len(bundle.objects)} STIX objects")</code></pre>
+
+      <h2>
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" stroke="#d29922" stroke-width="2"/><rect x="14" y="3" width="7" height="7" stroke="#d29922" stroke-width="2"/><rect x="14" y="14" width="7" height="7" stroke="#d29922" stroke-width="2"/><rect x="3" y="14" width="7" height="7" stroke="#d29922" stroke-width="2"/></svg>
+        STIX 2.1 Knowledge Graph Objects
+      </h2>
+      <p>The pipeline extracted and structured <strong>66 STIX 2.1 objects</strong> from the APT29 CTI report, spanning 11 object types:</p>
+
+      <div class="stix-grid">
+        <div class="stix-card type-ta">
+          <div class="stix-type">threat-actor</div>
+          <div class="stix-name">APT29 / Cozy Bear</div>
+          <div class="stix-desc">Russian SVR-affiliated nation-state actor, active since ~2008</div>
+        </div>
+        <div class="stix-card type-camp">
+          <div class="stix-type">campaign</div>
+          <div class="stix-name">Operation PHANTOM BEAR</div>
+          <div class="stix-desc">Oct 2023 – Feb 2024 espionage campaign targeting EU embassies</div>
+        </div>
+        <div class="stix-card type-mal">
+          <div class="stix-type">malware</div>
+          <div class="stix-name">WINELOADER</div>
+          <div class="stix-desc">Modular backdoor; RC4+Base64 C2; sqlwriter.exe hollowing</div>
+        </div>
+        <div class="stix-card type-mal">
+          <div class="stix-type">malware</div>
+          <div class="stix-name">TEARDROP</div>
+          <div class="stix-desc">Memory-only dropper; favicon.jpg steganographic payload</div>
+        </div>
+        <div class="stix-card type-mal">
+          <div class="stix-type">malware</div>
+          <div class="stix-name">SUNBURST</div>
+          <div class="stix-desc">SolarWinds supply chain implant (2020); shared infrastructure</div>
+        </div>
+        <div class="stix-card type-ap">
+          <div class="stix-type">attack-pattern</div>
+          <div class="stix-name">T1566.001 Spearphishing</div>
+          <div class="stix-desc">Wine-tasting event lure ZIP archives targeting diplomats</div>
+        </div>
+        <div class="stix-card type-ap">
+          <div class="stix-type">attack-pattern</div>
+          <div class="stix-name">T1055.012 Process Hollow</div>
+          <div class="stix-desc">Shellcode injection into sqlwriter.exe</div>
+        </div>
+        <div class="stix-card type-ap">
+          <div class="stix-type">attack-pattern</div>
+          <div class="stix-name">T1003.001 LSASS Memory</div>
+          <div class="stix-desc">Credential dumping via Mimikatz</div>
+        </div>
+        <div class="stix-card type-ioc">
+          <div class="stix-type">indicator</div>
+          <div class="stix-name">185.220.101.45</div>
+          <div class="stix-desc">WINELOADER C2 server IP (AS59796 Serverius)</div>
+        </div>
+        <div class="stix-card type-ioc">
+          <div class="stix-type">indicator</div>
+          <div class="stix-name">update.microsoftonline-cdn.com</div>
+          <div class="stix-desc">Typosquat C2 domain mimicking Microsoft</div>
+        </div>
+        <div class="stix-card type-vuln">
+          <div class="stix-type">vulnerability</div>
+          <div class="stix-name">CVE-2023-23397</div>
+          <div class="stix-desc">Zero-click Outlook privilege escalation; CVSS 9.8</div>
+        </div>
+        <div class="stix-card type-inf">
+          <div class="stix-type">infrastructure</div>
+          <div class="stix-name">PHANTOM BEAR C2 Infra</div>
+          <div class="stix-desc">AS59796 + AS20473; 14-21 day IP rotation; DGA fallback</div>
+        </div>
+      </div>
+
+      <h2>
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="#f85149" stroke-width="2"/></svg>
+        Threat Actor: APT29 / Cozy Bear
+      </h2>
+      <p>APT29 is a <strong>nation-state Advanced Persistent Threat (APT)</strong> attributed with high confidence to the Russian Federal Security Service (FSB) and Foreign Intelligence Service (SVR). The group has maintained consistent operational tempo since approximately 2008, demonstrating exceptional OPSEC and adaptive technical capabilities.</p>
+
+      <table>
+        <tr><th>Attribute</th><th>Value</th></tr>
+        <tr><td>Primary Name</td><td>APT29 / Cozy Bear</td></tr>
+        <tr><td>Aliases</td><td>Midnight Blizzard · NOBELIUM · The Dukes · Dark Halo · Iron Hemlock</td></tr>
+        <tr><td>Sponsor</td><td>Russian Federation (SVR / FSB)</td></tr>
+        <tr><td>Active Since</td><td>~2008</td></tr>
+        <tr><td>Motivation</td><td>Espionage · Intelligence Collection · Political Influence</td></tr>
+        <tr><td>Sophistication</td><td>Expert</td></tr>
+        <tr><td>Primary Targets</td><td>Government · Diplomatic · Defense · Healthcare · Tech</td></tr>
+        <tr><td>Confidence</td><td>High (85%)</td></tr>
+      </table>
+
+      <h2>
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="#bc8cff" stroke-width="2"/></svg>
+        Campaign: Operation PHANTOM BEAR
+      </h2>
+
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-dot" style="background:#d29922"></div>
+          <div class="tl-date">October 2023</div>
+          <div class="tl-title">Initial Spear-phishing</div>
+          <div class="tl-body">Wine-tasting event invitations distributed to European embassy personnel; ZIP archives delivering WINELOADER DLL</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot" style="background:#f85149"></div>
+          <div class="tl-date">November 2023</div>
+          <div class="tl-title">WINELOADER Deployment</div>
+          <div class="tl-body">Backdoor deployed on compromised ambassador workstations; persistence via HKCU Registry Run keys</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot" style="background:#ff7b72"></div>
+          <div class="tl-date">December 2023</div>
+          <div class="tl-title">Lateral Movement</div>
+          <div class="tl-body">Credential harvesting via Mimikatz; LSASS memory dump; stolen credentials used for internal pivoting</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot" style="background:#bc8cff"></div>
+          <div class="tl-date">January 2024</div>
+          <div class="tl-title">TEARDROP Second Stage</div>
+          <div class="tl-body">Memory-only dropper loading custom Cobalt Strike beacon; data exfiltration initiated via HTTPS C2 channel</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot" style="background:#3fb950"></div>
+          <div class="tl-date">February 2024</div>
+          <div class="tl-title">Detection &amp; Rotation</div>
+          <div class="tl-body">Campaign detected by defenders; C2 infrastructure rotated; APT29 adopted new IP ranges to evade blocklists</div>
+        </div>
+      </div>
+
+      <h2>
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" stroke="#ffa657" stroke-width="2"/></svg>
+        Indicators of Compromise (IOCs)
+      </h2>
+
+      <table>
+        <tr><th>Type</th><th>Value</th><th>Context</th></tr>
+        <tr>
+          <td><span class="ioc-tag ioc-ip">IP</span></td>
+          <td>185.220.101.45</td>
+          <td>WINELOADER C2 — AS59796 Serverius</td>
+        </tr>
+        <tr>
+          <td><span class="ioc-tag ioc-ip">IP</span></td>
+          <td>91.108.4.200</td>
+          <td>TEARDROP C2 — AS20473 Vultr</td>
+        </tr>
+        <tr>
+          <td><span class="ioc-tag ioc-ip">IP</span></td>
+          <td>194.165.16.78</td>
+          <td>Phishing Infrastructure</td>
+        </tr>
+        <tr>
+          <td><span class="ioc-tag ioc-dom">Domain</span></td>
+          <td>update.microsoftonline-cdn.com</td>
+          <td>Fake Microsoft C2 domain</td>
+        </tr>
+        <tr>
+          <td><span class="ioc-tag ioc-dom">Domain</span></td>
+          <td>cdn-telemetry.azure-api.net</td>
+          <td>Typosquat C2 — TEARDROP payload host</td>
+        </tr>
+        <tr>
+          <td><span class="ioc-tag ioc-dom">Domain</span></td>
+          <td>oauth2.live-signin.com</td>
+          <td>Credential phishing site</td>
+        </tr>
+        <tr>
+          <td><span class="ioc-tag ioc-hash">SHA-256</span></td>
+          <td style="font-size:11px">e3b0c44298fc1c149afbf4c8996fb924...</td>
+          <td>wineloader.dll</td>
+        </tr>
+        <tr>
+          <td><span class="ioc-tag ioc-hash">SHA-256</span></td>
+          <td style="font-size:11px">7acf71afa895df5358b0ede2d7112863...</td>
+          <td>teardrop.exe</td>
+        </tr>
+        <tr>
+          <td><span class="ioc-tag ioc-cve">CVE</span></td>
+          <td>CVE-2023-23397</td>
+          <td>Outlook zero-click — CVSS 9.8</td>
+        </tr>
+        <tr>
+          <td><span class="ioc-tag ioc-cve">CVE</span></td>
+          <td>CVE-2020-10148</td>
+          <td>SolarWinds Orion — CVSS 10.0</td>
+        </tr>
+      </table>
+
+      <h2>
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4" stroke="#3fb950" stroke-width="2"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" stroke="#3fb950" stroke-width="2"/></svg>
+        MITRE ATT&amp;CK Coverage
+      </h2>
+      <table>
+        <tr><th>ID</th><th>Technique</th><th>Phase</th></tr>
+        <tr><td>T1566.001</td><td>Spearphishing Attachment</td><td>Initial Access</td></tr>
+        <tr><td>T1055.012</td><td>Process Hollowing</td><td>Defense Evasion</td></tr>
+        <tr><td>T1547.001</td><td>Registry Run Keys / Startup Folder</td><td>Persistence</td></tr>
+        <tr><td>T1071.001</td><td>Web Protocols (HTTPS C2)</td><td>Command &amp; Control</td></tr>
+        <tr><td>T1573.001</td><td>Symmetric Cryptography (RC4)</td><td>Command &amp; Control</td></tr>
+        <tr><td>T1003.001</td><td>LSASS Memory Credential Dump</td><td>Credential Access</td></tr>
+        <tr><td>T1027</td><td>Obfuscated Files (Base64)</td><td>Defense Evasion</td></tr>
+        <tr><td>T1041</td><td>Exfiltration Over C2 Channel</td><td>Exfiltration</td></tr>
+        <tr><td>T1078</td><td>Valid Accounts (stolen creds)</td><td>Lateral Movement</td></tr>
+        <tr><td>T1195.002</td><td>Compromise Software Supply Chain</td><td>Initial Access</td></tr>
+      </table>
+
+      <h2>
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" stroke="#58a6ff" stroke-width="2"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83" stroke="#58a6ff" stroke-width="2"/></svg>
+        LLM Prompt Engineering
+      </h2>
+      <p>The extraction pipeline uses a structured <strong>two-layer prompt design</strong> — a system prompt that establishes GPT-4o as a CTI expert analyst, and a user prompt that passes cleaned text chunks with explicit JSON schema requirements:</p>
+
+      <pre><code class="pre-lang">system prompt</code><code>You are an expert Cyber Threat Intelligence (CTI) analyst.
+
+Your task is to extract structured entities from the given 
+threat intelligence report text.
+
+Extract the following entity types:
+  - threat_actors: name, aliases, description, motivation
+  - malware:       name, type, description, capabilities
+  - indicators:    type [ip/domain/hash/url], value, context
+  - attack_patterns: name, mitre_id, description, phase
+  - vulnerabilities: cve_id, description, cvss, product
+  - relationships: source, target, relationship_type
+  - infrastructure: name, type, description
+
+Return ONLY a valid JSON object matching this exact schema.
+No preamble, no markdown, no explanation.</code></pre>
+
+      <div class="alert alert-warn">
+        <span class="alert-icon">⚠</span>
+        <div><strong>Text Chunking:</strong> The CTI report was split into <code>12,000</code>-character chunks before LLM processing to respect GPT-4o context window limits. Results from all chunks were merged via a de-duplication function before STIX mapping.</div>
+      </div>
+
+      <h2>
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" stroke="#bc8cff" stroke-width="2"/></svg>
+        STIX 2.1 Bundle Structure
+      </h2>
+      <p>The final exported bundle (<code>APT29_STIX21_Bundle.json</code>) contains <strong>66 STIX 2.1 objects</strong> interconnected via 34 relationship SROs:</p>
+
+      <pre><code class="pre-lang">json</code><code>{
+  "type": "bundle",
+  "id": "bundle--4536ddc0-8127-42bd-a92d-0d2af9d8564d",
+  "spec_version": "2.1",
+  "objects": [
+    // 1 identity  (Threat Intelligence Unit)
+    // 1 threat-actor (APT29)
+    // 1 campaign   (Operation PHANTOM BEAR)
+    // 3 malware    (WINELOADER, TEARDROP, SUNBURST)
+    // 10 attack-pattern (MITRE ATT&amp;CK TTPs)
+    // 9 indicator  (IPs, Domains, Hashes, URLs)
+    // 2 infrastructure (C2 + Phishing Infra)
+    // 3 vulnerability (CVE-2023-23397, etc.)
+    // 1 course-of-action (Mitigations)
+    // 34 relationship (SROs)
+    // 1 report     (wrapping all objects)
+  ]
+}</code></pre>
+
+      <div class="alert alert-success">
+        <span class="alert-icon">✓</span>
+        <div><strong>STIX 2.1 Validated:</strong> All objects were programmatically validated against the STIX 2.1 specification. The bundle passes structural compliance checks for required fields (<code>type</code>, <code>id</code>, <code>spec_version</code>, <code>created</code>, <code>modified</code>) and correct <code>relationship_type</code> values (uses, attributed-to, indicates, targets, mitigates, exploits, delivers, drops).</div>
+      </div>
+
+      <h2>
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke="#7ee787" stroke-width="2"/><polyline points="14 2 14 8 20 8" stroke="#7ee787" stroke-width="2"/></svg>
+        Setup &amp; Usage
+      </h2>
+      <h3>Prerequisites</h3>
+      <pre><code>pip install pdfplumber openai stix2 requests ipywidgets pandas</code></pre>
+      <h3>Google Colab (Recommended)</h3>
+      <ol>
+        <li>Open <code>APT29_CTI_STIX21_Pipeline.ipynb</code> in Google Colab</li>
+        <li>Add your <code>OPENAI_API_KEY</code> to Colab Secrets</li>
+        <li>Run all cells sequentially (Runtime → Run All)</li>
+        <li>Upload <code>APT29_CTI_Report.pdf</code> when prompted</li>
+        <li>Download <code>APT29_STIX21_Bundle.json</code> after completion</li>
+      </ol>
+      <h3>Visualize the Knowledge Graph</h3>
+      <p>Load the exported <code>APT29_STIX21_Bundle.json</code> into the <a href="https://oasis-open.github.io/cti-stix-visualization/" target="_blank">OASIS STIX Visualizer</a> to explore the interactive relationship graph.</p>
+
+      <h2>
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" stroke="#58a6ff" stroke-width="2"/><circle cx="9" cy="7" r="4" stroke="#58a6ff" stroke-width="2"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" stroke="#58a6ff" stroke-width="2"/></svg>
+        Author
+      </h2>
+      <table>
+        <tr><th>Field</th><th>Detail</th></tr>
+        <tr><td>Name</td><td>Sarmad Farooq</td></tr>
+        <tr><td>Roll No</td><td>25i-7722</td></tr>
+        <tr><td>Activity</td><td>Activity 4 — CTI Pipeline</td></tr>
+        <tr><td>Instructor</td><td>Dr. Zafar</td></tr>
+        <tr><td>Institute</td><td>FAST-NUCES, Islamabad</td></tr>
+        <tr><td>Course</td><td>Cyber Security Lab</td></tr>
+      </table>
+
+      <div class="alert alert-info" style="margin-top: 24px;">
+        <span class="alert-icon">📋</span>
+        <div>Report classification: <strong>TLP:WHITE</strong> — Unrestricted Distribution. Source report ID: <code>CTI-2024-APT29-0042</code> (March 2024). Confidence: High (85%).</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── SIDEBAR ── -->
+  <div class="sidebar">
+
+    <!-- About card -->
+    <div class="sidebar-card reveal">
+      <div class="sidebar-header">About</div>
+      <div class="sidebar-body">
+        <p style="font-size:13px;color:var(--text2);margin-bottom:12px;">LLM-based CTI extraction pipeline producing a STIX 2.1 knowledge graph from APT29 threat intelligence data.</p>
+        <div class="sidebar-row">
+          <span class="sidebar-key">Student</span>
+          <span class="sidebar-val"><strong>Sarmad Farooq</strong></span>
+        </div>
+        <div class="sidebar-row">
+          <span class="sidebar-key">Roll No</span>
+          <span class="sidebar-val" style="font-family:var(--font-mono);color:#3fb950">25i-7722</span>
+        </div>
+        <div class="sidebar-row">
+          <span class="sidebar-key">Activity</span>
+          <span class="sidebar-val"><strong>Activity 4</strong></span>
+        </div>
+        <div class="sidebar-row">
+          <span class="sidebar-key">Instructor</span>
+          <span class="sidebar-val">Dr. Zafar</span>
+        </div>
+        <div class="sidebar-row">
+          <span class="sidebar-key">Institute</span>
+          <span class="sidebar-val">FAST-NUCES</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Files card -->
+    <div class="sidebar-card reveal">
+      <div class="sidebar-header">Repository Files</div>
+      <div class="sidebar-body" style="padding:8px 12px;">
+        <ul class="file-tree">
+          <li>
+            <span class="file-icon">📓</span>
+            <div>
+              <div><a href="#">APT29_CTI_STIX21_Pipeline.ipynb</a></div>
+              <div style="font-size:11px;color:var(--text3)">27 cells · Google Colab notebook</div>
+            </div>
+          </li>
+          <li>
+            <span class="file-icon">📦</span>
+            <div>
+              <div><a href="#">APT29_STIX21_Bundle.json</a></div>
+              <div style="font-size:11px;color:var(--text3)">66 STIX 2.1 objects · 34 relationships</div>
+            </div>
+          </li>
+          <li>
+            <span class="file-icon">📄</span>
+            <div>
+              <div><a href="#">APT29_CTI_Report.pdf</a></div>
+              <div style="font-size:11px;color:var(--text3)">CTI-2024-APT29-0042 · TLP:WHITE</div>
+            </div>
+          </li>
+          <li>
+            <span class="file-icon">🖼️</span>
+            <div>
+              <div><a href="#">Activity4_Presentation.pptx</a></div>
+              <div style="font-size:11px;color:var(--text3)">18 slides · full pipeline walkthrough</div>
+            </div>
+          </li>
+          <li>
+            <span class="file-icon">📝</span>
+            <div>
+              <div><a href="#">README.md</a></div>
+              <div style="font-size:11px;color:var(--text3)">This file</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Language card -->
+    <div class="sidebar-card reveal">
+      <div class="sidebar-header">Languages &amp; Tools</div>
+      <div class="sidebar-body">
+        <div class="lang-bar">
+          <div class="lang-seg" style="background:#3572A5;flex:55" title="Python 55%"></div>
+          <div class="lang-seg" style="background:#f1e05a;flex:20" title="JSON 20%"></div>
+          <div class="lang-seg" style="background:#e34c26;flex:15" title="Jupyter 15%"></div>
+          <div class="lang-seg" style="background:#3fb950;flex:10" title="Markdown 10%"></div>
+        </div>
+        <div class="lang-legend">
+          <div class="lang-item"><div class="lang-dot" style="background:#3572A5"></div>Python 55%</div>
+          <div class="lang-item"><div class="lang-dot" style="background:#f1e05a"></div>JSON 20%</div>
+          <div class="lang-item"><div class="lang-dot" style="background:#e34c26"></div>Jupyter 15%</div>
+          <div class="lang-item"><div class="lang-dot" style="background:#3fb950"></div>Markdown 10%</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STIX Object Counts -->
+    <div class="sidebar-card reveal">
+      <div class="sidebar-header">STIX Bundle Summary</div>
+      <div class="sidebar-body" style="padding:8px 12px;">
+        <div class="sidebar-row">
+          <span style="font-size:11px;color:var(--text3);width:130px;font-family:var(--font-mono)">threat-actor</span>
+          <span style="color:#f85149;font-family:var(--font-mono);font-size:12px">1 object</span>
+        </div>
+        <div class="sidebar-row">
+          <span style="font-size:11px;color:var(--text3);width:130px;font-family:var(--font-mono)">campaign</span>
+          <span style="color:#e3b341;font-family:var(--font-mono);font-size:12px">1 object</span>
+        </div>
+        <div class="sidebar-row">
+          <span style="font-size:11px;color:var(--text3);width:130px;font-family:var(--font-mono)">malware</span>
+          <span style="color:#ff7b72;font-family:var(--font-mono);font-size:12px">3 objects</span>
+        </div>
+        <div class="sidebar-row">
+          <span style="font-size:11px;color:var(--text3);width:130px;font-family:var(--font-mono)">attack-pattern</span>
+          <span style="color:#d2a8ff;font-family:var(--font-mono);font-size:12px">10 objects</span>
+        </div>
+        <div class="sidebar-row">
+          <span style="font-size:11px;color:var(--text3);width:130px;font-family:var(--font-mono)">indicator</span>
+          <span style="color:#ffa657;font-family:var(--font-mono);font-size:12px">9 objects</span>
+        </div>
+        <div class="sidebar-row">
+          <span style="font-size:11px;color:var(--text3);width:130px;font-family:var(--font-mono)">infrastructure</span>
+          <span style="color:#7ee787;font-family:var(--font-mono);font-size:12px">2 objects</span>
+        </div>
+        <div class="sidebar-row">
+          <span style="font-size:11px;color:var(--text3);width:130px;font-family:var(--font-mono)">vulnerability</span>
+          <span style="color:#f78166;font-family:var(--font-mono);font-size:12px">3 objects</span>
+        </div>
+        <div class="sidebar-row">
+          <span style="font-size:11px;color:var(--text3);width:130px;font-family:var(--font-mono)">course-of-action</span>
+          <span style="color:#79c0ff;font-family:var(--font-mono);font-size:12px">1 object</span>
+        </div>
+        <div class="sidebar-row">
+          <span style="font-size:11px;color:var(--text3);width:130px;font-family:var(--font-mono)">relationship</span>
+          <span style="color:#58a6ff;font-family:var(--font-mono);font-size:12px">34 SROs</span>
+        </div>
+        <div class="sidebar-row">
+          <span style="font-size:11px;color:var(--text3);width:130px;font-family:var(--font-mono)">report</span>
+          <span style="color:#8b949e;font-family:var(--font-mono);font-size:12px">1 object</span>
+        </div>
+        <div class="sidebar-row">
+          <span style="font-size:11px;color:var(--text3);width:130px;font-family:var(--font-mono)">identity</span>
+          <span style="color:#8b949e;font-family:var(--font-mono);font-size:12px">1 object</span>
+        </div>
+        <div style="border-top: 1px solid var(--border); margin-top:6px; padding-top:8px; display:flex; justify-content:space-between; align-items:center;">
+          <span style="font-size:11px;color:var(--text3);font-family:var(--font-mono)">Total</span>
+          <span style="color:var(--accent);font-family:var(--font-mono);font-size:14px;font-weight:600">66 objects</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contribution graph mini -->
+    <div class="sidebar-card">
+      <div class="sidebar-header">Activity</div>
+      <div class="sidebar-body">
+        <p style="font-size:12px;color:var(--text3);margin-bottom:10px;font-family:var(--font-mono)">Activity 4 — March 2024</p>
+        <div class="contrib-row">
+          <!-- Simulated contribution graph -->
+          <div class="contrib-day"></div><div class="contrib-day"></div><div class="contrib-day l1"></div><div class="contrib-day l2"></div><div class="contrib-day l3"></div><div class="contrib-day l4"></div><div class="contrib-day l4"></div>
+          <div class="contrib-day l2"></div><div class="contrib-day l3"></div><div class="contrib-day l4"></div><div class="contrib-day l4"></div><div class="contrib-day l3"></div><div class="contrib-day l2"></div><div class="contrib-day l1"></div>
+          <div class="contrib-day l4"></div><div class="contrib-day l4"></div><div class="contrib-day l3"></div><div class="contrib-day l4"></div><div class="contrib-day l4"></div><div class="contrib-day l2"></div><div class="contrib-day l1"></div>
+          <div class="contrib-day l1"></div><div class="contrib-day l3"></div><div class="contrib-day l4"></div><div class="contrib-day l4"></div><div class="contrib-day l4"></div><div class="contrib-day l3"></div><div class="contrib-day"></div>
+        </div>
+        <p style="font-size:11px;color:var(--text3);margin-top:8px;font-family:var(--font-mono)">10 steps implemented · 27 notebook cells</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <span>© 2024 Sarmad Farooq &nbsp;·&nbsp; FAST-NUCES, Islamabad &nbsp;·&nbsp; 25i-7722</span>
+  <br style="margin:6px 0">
+  <span>Activity 4 &nbsp;·&nbsp; Cyber Security Lab &nbsp;·&nbsp; Instructor: Dr. Zafar</span>
+  <br style="margin:6px 0">
+  <span style="color:var(--text3)">Report: CTI-2024-APT29-0042 &nbsp;·&nbsp; Classification: TLP:WHITE &nbsp;·&nbsp; Built with Python · GPT-4o · STIX 2.1</span>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,1255 @@
+{
+  "type": "bundle",
+  "id": "bundle--4536ddc0-8127-42bd-a92d-0d2af9d8564d",
+  "spec_version": "2.1",
+  "created": "2024-03-15T08:00:00.000Z",
+  "objects": [
+    {
+      "type": "identity",
+      "spec_version": "2.1",
+      "id": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "name": "Threat Intelligence Unit",
+      "identity_class": "organization",
+      "description": "Internal CTI team responsible for threat research and reporting.",
+      "sectors": [
+        "technology"
+      ],
+      "contact_information": "cti-team@threatintel.example.com"
+    },
+    {
+      "type": "threat-actor",
+      "spec_version": "2.1",
+      "id": "threat-actor--apt29-cozy-bear-001",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "name": "APT29",
+      "description": "APT29 (also known as Cozy Bear, Midnight Blizzard, NOBELIUM, The Dukes) is a sophisticated Russian state-sponsored threat actor attributed to the SVR (Foreign Intelligence Service). Active since approximately 2008, APT29 targets government, diplomatic, defense, and technology sectors across NATO member states.",
+      "aliases": [
+        "Cozy Bear",
+        "Midnight Blizzard",
+        "NOBELIUM",
+        "The Dukes",
+        "Dark Halo",
+        "Iron Hemlock"
+      ],
+      "threat_actor_types": [
+        "nation-state"
+      ],
+      "roles": [
+        "agent",
+        "director"
+      ],
+      "goals": [
+        "espionage",
+        "intelligence-collection",
+        "political-influence"
+      ],
+      "sophistication": "expert",
+      "resource_level": "government",
+      "primary_motivation": "espionage",
+      "secondary_motivations": [
+        "political"
+      ],
+      "first_seen": "2008-01-01T00:00:00.000Z",
+      "last_seen": "2024-02-28T00:00:00.000Z",
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      "confidence": 85,
+      "labels": [
+        "apt",
+        "nation-state",
+        "russia",
+        "svr"
+      ]
+    },
+    {
+      "type": "campaign",
+      "spec_version": "2.1",
+      "id": "campaign--phantom-bear-2023",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "name": "Operation PHANTOM BEAR",
+      "description": "A targeted espionage campaign conducted by APT29 between October 2023 and February 2024. The campaign targeted European diplomatic missions using spear-phishing emails with wine-tasting event lures, deploying WINELOADER and TEARDROP malware to achieve persistent access and data exfiltration.",
+      "aliases": [
+        "PHANTOM BEAR"
+      ],
+      "first_seen": "2023-10-01T00:00:00.000Z",
+      "last_seen": "2024-02-28T00:00:00.000Z",
+      "objective": "Espionage and intelligence collection from European diplomatic entities",
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      "confidence": 85,
+      "labels": [
+        "espionage",
+        "europe",
+        "diplomatic",
+        "spear-phishing"
+      ]
+    },
+    {
+      "type": "malware",
+      "spec_version": "2.1",
+      "id": "malware--wineloader-apt29-001",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "name": "WINELOADER",
+      "description": "WINELOADER is a newly identified modular backdoor attributed exclusively to APT29. Delivered via ZIP archive in spear-phishing emails, it injects shellcode into sqlwriter.exe using process hollowing. C2 communication uses HTTPS over port 443 with RC4 encryption and base64 encoding. Achieves persistence via Windows Registry Run keys.",
+      "malware_types": [
+        "backdoor",
+        "dropper"
+      ],
+      "is_family": false,
+      "aliases": [
+        "WINELOADER"
+      ],
+      "first_seen": "2023-10-14T00:00:00.000Z",
+      "last_seen": "2024-02-28T00:00:00.000Z",
+      "architecture_execution_envs": [
+        "x86-64"
+      ],
+      "implementation_languages": [
+        "c"
+      ],
+      "capabilities": [
+        "communicates-with-c2",
+        "persists-after-system-reboot",
+        "steals-credentials",
+        "evades-av"
+      ],
+      "operating_system_refs": [],
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      "confidence": 90,
+      "labels": [
+        "backdoor",
+        "dropper",
+        "apt29",
+        "wineloader"
+      ]
+    },
+    {
+      "type": "malware",
+      "spec_version": "2.1",
+      "id": "malware--teardrop-apt29-001",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "name": "TEARDROP",
+      "description": "TEARDROP is a memory-only dropper that reads a fake JPEG image file (favicon.jpg) to extract and decode an embedded payload. Used as second-stage malware to deliver a customized Cobalt Strike beacon. Does not write artifacts to disk, making forensic detection difficult.",
+      "malware_types": [
+        "dropper"
+      ],
+      "is_family": false,
+      "aliases": [
+        "TEARDROP"
+      ],
+      "first_seen": "2023-11-01T00:00:00.000Z",
+      "last_seen": "2024-02-28T00:00:00.000Z",
+      "architecture_execution_envs": [
+        "x86-64"
+      ],
+      "capabilities": [
+        "communicates-with-c2",
+        "evades-av",
+        "steals-credentials"
+      ],
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      "confidence": 85,
+      "labels": [
+        "dropper",
+        "memory-only",
+        "apt29",
+        "cobalt-strike"
+      ]
+    },
+    {
+      "type": "malware",
+      "spec_version": "2.1",
+      "id": "malware--sunburst-apt29-001",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "name": "SUNBURST",
+      "description": "SUNBURST is a trojanized update to the SolarWinds Orion IT management software used in the 2020 supply chain attack. Although not directly used in Operation PHANTOM BEAR, infrastructure overlaps were identified linking to the 2020 campaign.",
+      "malware_types": [
+        "backdoor",
+        "trojan"
+      ],
+      "is_family": false,
+      "aliases": [
+        "SUNBURST",
+        "Solorigate"
+      ],
+      "first_seen": "2020-03-01T00:00:00.000Z",
+      "last_seen": "2021-01-15T00:00:00.000Z",
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      "confidence": 95,
+      "labels": [
+        "supply-chain",
+        "solarwinds",
+        "apt29"
+      ]
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--t1566001",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "name": "Spearphishing Attachment (T1566.001)",
+      "description": "APT29 used spear-phishing emails containing ZIP archives with malicious DLL files disguised as wine-tasting event invitations targeting European diplomatic personnel.",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1566.001",
+          "url": "https://attack.mitre.org/techniques/T1566/001/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "initial-access"
+        }
+      ],
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--t1055012",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "name": "Process Hollowing (T1055.012)",
+      "description": "WINELOADER injects shellcode into legitimate Windows process sqlwriter.exe using process hollowing technique to evade detection.",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1055.012",
+          "url": "https://attack.mitre.org/techniques/T1055/012/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "defense-evasion"
+        }
+      ],
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--t1547001",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "name": "Registry Run Keys / Startup Folder (T1547.001)",
+      "description": "WINELOADER achieves persistence by writing to HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run registry key.",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1547.001",
+          "url": "https://attack.mitre.org/techniques/T1547/001/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "persistence"
+        }
+      ],
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--t1071001",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "name": "Web Protocols (T1071.001)",
+      "description": "APT29 uses HTTPS on port 443 for C2 communication to blend with legitimate web traffic and evade network monitoring.",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1071.001",
+          "url": "https://attack.mitre.org/techniques/T1071/001/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "command-and-control"
+        }
+      ],
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--t1573001",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "name": "Symmetric Cryptography (T1573.001)",
+      "description": "RC4 encryption combined with base64 encoding is used to obfuscate C2 traffic and evade network-based detection.",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1573.001",
+          "url": "https://attack.mitre.org/techniques/T1573/001/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "command-and-control"
+        }
+      ],
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--t1003001",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "name": "LSASS Memory (T1003.001)",
+      "description": "APT29 uses Mimikatz to dump credentials from LSASS memory to enable lateral movement within the target network.",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1003.001",
+          "url": "https://attack.mitre.org/techniques/T1003/001/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "credential-access"
+        }
+      ],
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--t1027",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "name": "Obfuscated Files or Information (T1027)",
+      "description": "Payloads are encoded using base64 and embedded within fake JPEG files (favicon.jpg) to evade file-based detection.",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1027",
+          "url": "https://attack.mitre.org/techniques/T1027/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "defense-evasion"
+        }
+      ],
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--t1041",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "name": "Exfiltration Over C2 Channel (T1041)",
+      "description": "Stolen data is exfiltrated using the existing HTTPS C2 communication channel to avoid triggering DLP controls.",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1041",
+          "url": "https://attack.mitre.org/techniques/T1041/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "exfiltration"
+        }
+      ],
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--t1078",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "name": "Valid Accounts (T1078)",
+      "description": "Stolen credentials obtained via Mimikatz are used to authenticate to internal systems and facilitate lateral movement.",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1078",
+          "url": "https://attack.mitre.org/techniques/T1078/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "privilege-escalation"
+        }
+      ],
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+    },
+    {
+      "type": "attack-pattern",
+      "spec_version": "2.1",
+      "id": "attack-pattern--t1195002",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "name": "Compromise Software Supply Chain (T1195.002)",
+      "description": "Historical technique used in the 2020 SolarWinds attack where APT29 compromised the SolarWinds Orion build pipeline to distribute SUNBURST.",
+      "external_references": [
+        {
+          "source_name": "mitre-attack",
+          "external_id": "T1195.002",
+          "url": "https://attack.mitre.org/techniques/T1195/002/"
+        }
+      ],
+      "kill_chain_phases": [
+        {
+          "kill_chain_name": "mitre-attack",
+          "phase_name": "initial-access"
+        }
+      ],
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+    },
+    {
+      "type": "indicator",
+      "spec_version": "2.1",
+      "id": "indicator--ip-wineloader-c2",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "name": "WINELOADER C2 IP: 185.220.101.45",
+      "description": "IP address of the primary WINELOADER C2 server hosted on AS59796 (Serverius).",
+      "indicator_types": [
+        "malicious-activity",
+        "compromised"
+      ],
+      "pattern": "[ipv4-addr:value = '185.220.101.45']",
+      "pattern_type": "stix",
+      "pattern_version": "2.1",
+      "valid_from": "2023-10-01T00:00:00.000Z",
+      "valid_until": "2024-12-31T23:59:59.000Z",
+      "confidence": 85,
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      "labels": [
+        "c2",
+        "wineloader",
+        "apt29"
+      ]
+    },
+    {
+      "type": "indicator",
+      "spec_version": "2.1",
+      "id": "indicator--ip-teardrop-c2",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "name": "TEARDROP C2 IP: 91.108.4.200",
+      "description": "IP address used for TEARDROP second-stage C2 communications.",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "pattern": "[ipv4-addr:value = '91.108.4.200']",
+      "pattern_type": "stix",
+      "pattern_version": "2.1",
+      "valid_from": "2023-10-01T00:00:00.000Z",
+      "valid_until": "2024-12-31T23:59:59.000Z",
+      "confidence": 85,
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      "labels": [
+        "c2",
+        "teardrop",
+        "apt29"
+      ]
+    },
+    {
+      "type": "indicator",
+      "spec_version": "2.1",
+      "id": "indicator--ip-phishing",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "name": "Phishing Infrastructure IP: 194.165.16.78",
+      "description": "IP address hosting spear-phishing pages mimicking legitimate services.",
+      "indicator_types": [
+        "malicious-activity",
+        "compromised"
+      ],
+      "pattern": "[ipv4-addr:value = '194.165.16.78']",
+      "pattern_type": "stix",
+      "pattern_version": "2.1",
+      "valid_from": "2023-10-01T00:00:00.000Z",
+      "valid_until": "2024-12-31T23:59:59.000Z",
+      "confidence": 85,
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      "labels": [
+        "phishing",
+        "apt29"
+      ]
+    },
+    {
+      "type": "indicator",
+      "spec_version": "2.1",
+      "id": "indicator--domain-c2-1",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "name": "Typosquat C2 Domain: update.microsoftonline-cdn.com",
+      "description": "Typosquatted domain mimicking Microsoft online services used as primary C2.",
+      "indicator_types": [
+        "malicious-activity",
+        "anonymization"
+      ],
+      "pattern": "[domain-name:value = 'update.microsoftonline-cdn.com']",
+      "pattern_type": "stix",
+      "pattern_version": "2.1",
+      "valid_from": "2023-10-01T00:00:00.000Z",
+      "valid_until": "2024-12-31T23:59:59.000Z",
+      "confidence": 85,
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      "labels": [
+        "c2",
+        "typosquat",
+        "apt29"
+      ]
+    },
+    {
+      "type": "indicator",
+      "spec_version": "2.1",
+      "id": "indicator--domain-c2-2",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "name": "Typosquat C2 Domain: cdn-telemetry.azure-api.net",
+      "description": "Typosquatted Azure domain used for TEARDROP payload delivery (favicon.jpg).",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "pattern": "[domain-name:value = 'cdn-telemetry.azure-api.net']",
+      "pattern_type": "stix",
+      "pattern_version": "2.1",
+      "valid_from": "2023-10-01T00:00:00.000Z",
+      "valid_until": "2024-12-31T23:59:59.000Z",
+      "confidence": 85,
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      "labels": [
+        "c2",
+        "typosquat",
+        "apt29",
+        "teardrop"
+      ]
+    },
+    {
+      "type": "indicator",
+      "spec_version": "2.1",
+      "id": "indicator--domain-phish",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "name": "Credential Phishing Domain: oauth2.live-signin.com",
+      "description": "Credential harvesting domain mimicking Microsoft OAuth2 login.",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "pattern": "[domain-name:value = 'oauth2.live-signin.com']",
+      "pattern_type": "stix",
+      "pattern_version": "2.1",
+      "valid_from": "2023-10-01T00:00:00.000Z",
+      "valid_until": "2024-12-31T23:59:59.000Z",
+      "confidence": 85,
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      "labels": [
+        "phishing",
+        "credential-theft",
+        "apt29"
+      ]
+    },
+    {
+      "type": "indicator",
+      "spec_version": "2.1",
+      "id": "indicator--hash-wineloader-sha256",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "name": "WINELOADER SHA-256 Hash",
+      "description": "SHA-256 hash of the WINELOADER backdoor DLL (wineloader.dll).",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "pattern": "[file:hashes.SHA-256 = 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855']",
+      "pattern_type": "stix",
+      "pattern_version": "2.1",
+      "valid_from": "2023-10-01T00:00:00.000Z",
+      "valid_until": "2024-12-31T23:59:59.000Z",
+      "confidence": 85,
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      "labels": [
+        "wineloader",
+        "apt29",
+        "hash"
+      ]
+    },
+    {
+      "type": "indicator",
+      "spec_version": "2.1",
+      "id": "indicator--hash-teardrop-sha256",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "name": "TEARDROP SHA-256 Hash",
+      "description": "SHA-256 hash of the TEARDROP dropper (teardrop.exe).",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "pattern": "[file:hashes.SHA-256 = '7acf71afa895df5358b0ede2d71128634bfbbc0e2d9deccff5c5eaa25e6f5510']",
+      "pattern_type": "stix",
+      "pattern_version": "2.1",
+      "valid_from": "2023-10-01T00:00:00.000Z",
+      "valid_until": "2024-12-31T23:59:59.000Z",
+      "confidence": 85,
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      "labels": [
+        "teardrop",
+        "apt29",
+        "hash"
+      ]
+    },
+    {
+      "type": "indicator",
+      "spec_version": "2.1",
+      "id": "indicator--url-c2-endpoint",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "name": "WINELOADER C2 URL Endpoint",
+      "description": "Full C2 communication URL used by WINELOADER for check-ins and command retrieval.",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "pattern": "[url:value = 'https://update.microsoftonline-cdn.com/api/v2/push']",
+      "pattern_type": "stix",
+      "pattern_version": "2.1",
+      "valid_from": "2023-10-01T00:00:00.000Z",
+      "valid_until": "2024-12-31T23:59:59.000Z",
+      "confidence": 85,
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      "labels": [
+        "c2",
+        "wineloader",
+        "url",
+        "apt29"
+      ]
+    },
+    {
+      "type": "infrastructure",
+      "spec_version": "2.1",
+      "id": "infrastructure--apt29-c2-network",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "name": "APT29 Operation PHANTOM BEAR C2 Infrastructure",
+      "description": "Distributed C2 infrastructure used by APT29 during Operation PHANTOM BEAR. Utilizes bulletproof hosting on AS59796 (Serverius, Netherlands) and AS20473 (Vultr, US), typosquatted domains mimicking Microsoft and Azure services, and domain generation algorithms as fallback. IP ranges rotated every 14-21 days.",
+      "infrastructure_types": [
+        "command-and-control",
+        "hosting-malware"
+      ],
+      "aliases": [
+        "PHANTOM BEAR Infrastructure"
+      ],
+      "first_seen": "2023-10-01T00:00:00.000Z",
+      "last_seen": "2024-02-28T00:00:00.000Z",
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      "labels": [
+        "apt29",
+        "c2",
+        "bulletproof-hosting",
+        "typosquat"
+      ]
+    },
+    {
+      "type": "infrastructure",
+      "spec_version": "2.1",
+      "id": "infrastructure--apt29-phishing-infra",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "name": "APT29 Phishing Infrastructure",
+      "description": "Credential phishing infrastructure used to harvest credentials via fake Microsoft OAuth2 login pages and distribute malicious ZIP attachments.",
+      "infrastructure_types": [
+        "hosting-malware",
+        "phishing"
+      ],
+      "first_seen": "2023-10-01T00:00:00.000Z",
+      "last_seen": "2024-01-31T00:00:00.000Z",
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      "labels": [
+        "apt29",
+        "phishing",
+        "credential-theft"
+      ]
+    },
+    {
+      "type": "vulnerability",
+      "spec_version": "2.1",
+      "id": "vulnerability--cve-2023-23397",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "name": "CVE-2023-23397",
+      "description": "Microsoft Outlook privilege escalation zero-click vulnerability allowing NTLM hash theft. CVSS score 9.8. Exploited by APT29 for credential theft without user interaction.",
+      "external_references": [
+        {
+          "source_name": "cve",
+          "external_id": "CVE-2023-23397",
+          "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-23397"
+        }
+      ],
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+    },
+    {
+      "type": "vulnerability",
+      "spec_version": "2.1",
+      "id": "vulnerability--cve-2020-10148",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "name": "CVE-2020-10148",
+      "description": "SolarWinds Orion API authentication bypass vulnerability exploited in the 2020 supply chain attack delivering SUNBURST. CVSS score 10.0.",
+      "external_references": [
+        {
+          "source_name": "cve",
+          "external_id": "CVE-2020-10148",
+          "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-10148"
+        }
+      ],
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+    },
+    {
+      "type": "vulnerability",
+      "spec_version": "2.1",
+      "id": "vulnerability--cve-2019-19781",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "name": "CVE-2019-19781",
+      "description": "Citrix ADC/Gateway path traversal vulnerability enabling arbitrary code execution. CVSS score 9.8.",
+      "external_references": [
+        {
+          "source_name": "cve",
+          "external_id": "CVE-2019-19781",
+          "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-19781"
+        }
+      ],
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+    },
+    {
+      "type": "course-of-action",
+      "spec_version": "2.1",
+      "id": "course-of-action--mitigations-apt29",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "name": "APT29 PHANTOM BEAR Mitigations",
+      "description": "Recommended mitigations: (1) Block known C2 domains/IPs at perimeter. (2) Apply MS patch MS23-0397 for CVE-2023-23397. (3) Enable MFA for all remote access. (4) Deploy EDR with memory scanning. (5) Monitor for process hollowing targeting sqlwriter.exe. (6) Implement network segmentation. (7) Conduct spear-phishing awareness training. (8) Hunt for Registry persistence: HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run.",
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+    },
+    {
+      "type": "relationship",
+      "spec_version": "2.1",
+      "id": "relationship--rel-0000-08248492",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "relationship_type": "attributed-to",
+      "source_ref": "threat-actor--apt29-cozy-bear-001",
+      "target_ref": "campaign--phantom-bear-2023",
+      "description": "APT29 is attributed as the threat actor behind Operation PHANTOM BEAR.",
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+    },
+    {
+      "type": "relationship",
+      "spec_version": "2.1",
+      "id": "relationship--rel-0001-16ae2630",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--phantom-bear-2023",
+      "target_ref": "malware--wineloader-apt29-001",
+      "description": "Operation PHANTOM BEAR deployed WINELOADER as primary backdoor.",
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+    },
+    {
+      "type": "relationship",
+      "spec_version": "2.1",
+      "id": "relationship--rel-0002-c53494e8",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "relationship_type": "uses",
+      "source_ref": "campaign--phantom-bear-2023",
+      "target_ref": "malware--teardrop-apt29-001",
+      "description": "Operation PHANTOM BEAR used TEARDROP as second-stage dropper.",
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+    },
+    {
+      "type": "relationship",
+      "spec_version": "2.1",
+      "id": "relationship--rel-0003-860f2f35",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "relationship_type": "uses",
+      "source_ref": "threat-actor--apt29-cozy-bear-001",
+      "target_ref": "malware--wineloader-apt29-001",
+      "description": "APT29 developed and exclusively uses WINELOADER backdoor.",
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+    },
+    {
+      "type": "relationship",
+      "spec_version": "2.1",
+      "id": "relationship--rel-0004-f5ad67e4",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "relationship_type": "uses",
+      "source_ref": "threat-actor--apt29-cozy-bear-001",
+      "target_ref": "malware--teardrop-apt29-001",
+      "description": "APT29 uses TEARDROP as a memory-only second-stage dropper.",
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+    },
+    {
+      "type": "relationship",
+      "spec_version": "2.1",
+      "id": "relationship--rel-0005-4f843e40",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "relationship_type": "uses",
+      "source_ref": "threat-actor--apt29-cozy-bear-001",
+      "target_ref": "malware--sunburst-apt29-001",
+      "description": "APT29 used SUNBURST in the 2020 SolarWinds supply chain attack.",
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+    },
+    {
+      "type": "relationship",
+      "spec_version": "2.1",
+      "id": "relationship--rel-0006-de8af565",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "relationship_type": "uses",
+      "source_ref": "threat-actor--apt29-cozy-bear-001",
+      "target_ref": "attack-pattern--t1566001",
+      "description": "APT29 uses spear-phishing with malicious attachments as initial access vector.",
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+    },
+    {
+      "type": "relationship",
+      "spec_version": "2.1",
+      "id": "relationship--rel-0007-3adba1f4",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "relationship_type": "uses",
+      "source_ref": "threat-actor--apt29-cozy-bear-001",
+      "target_ref": "attack-pattern--t1055012",
+      "description": "APT29 uses process hollowing for defense evasion.",
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+    },
+    {
+      "type": "relationship",
+      "spec_version": "2.1",
+      "id": "relationship--rel-0008-702f2338",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "relationship_type": "uses",
+      "source_ref": "threat-actor--apt29-cozy-bear-001",
+      "target_ref": "attack-pattern--t1547001",
+      "description": "APT29 establishes persistence via Registry Run keys.",
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+    },
+    {
+      "type": "relationship",
+      "spec_version": "2.1",
+      "id": "relationship--rel-0009-3464c158",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "relationship_type": "uses",
+      "source_ref": "threat-actor--apt29-cozy-bear-001",
+      "target_ref": "attack-pattern--t1071001",
+      "description": "APT29 communicates via web protocols for C2.",
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+    },
+    {
+      "type": "relationship",
+      "spec_version": "2.1",
+      "id": "relationship--rel-0010-1e2a8e41",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "relationship_type": "uses",
+      "source_ref": "threat-actor--apt29-cozy-bear-001",
+      "target_ref": "attack-pattern--t1573001",
+      "description": "APT29 encrypts C2 traffic using symmetric cryptography.",
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+    },
+    {
+      "type": "relationship",
+      "spec_version": "2.1",
+      "id": "relationship--rel-0011-df9b6be5",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "relationship_type": "uses",
+      "source_ref": "threat-actor--apt29-cozy-bear-001",
+      "target_ref": "attack-pattern--t1003001",
+      "description": "APT29 uses Mimikatz for LSASS credential dumping.",
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+    },
+    {
+      "type": "relationship",
+      "spec_version": "2.1",
+      "id": "relationship--rel-0012-f6dbc2a3",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "relationship_type": "uses",
+      "source_ref": "threat-actor--apt29-cozy-bear-001",
+      "target_ref": "attack-pattern--t1027",
+      "description": "APT29 obfuscates payloads using base64 encoding.",
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+    },
+    {
+      "type": "relationship",
+      "spec_version": "2.1",
+      "id": "relationship--rel-0013-143e3b9d",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "relationship_type": "uses",
+      "source_ref": "threat-actor--apt29-cozy-bear-001",
+      "target_ref": "attack-pattern--t1041",
+      "description": "APT29 exfiltrates data over the existing C2 channel.",
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+    },
+    {
+      "type": "relationship",
+      "spec_version": "2.1",
+      "id": "relationship--rel-0014-49e53410",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "relationship_type": "uses",
+      "source_ref": "threat-actor--apt29-cozy-bear-001",
+      "target_ref": "attack-pattern--t1078",
+      "description": "APT29 uses stolen credentials for lateral movement.",
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+    },
+    {
+      "type": "relationship",
+      "spec_version": "2.1",
+      "id": "relationship--rel-0015-53319dca",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "relationship_type": "uses",
+      "source_ref": "threat-actor--apt29-cozy-bear-001",
+      "target_ref": "attack-pattern--t1195002",
+      "description": "APT29 historically used supply chain compromise via SolarWinds.",
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+    },
+    {
+      "type": "relationship",
+      "spec_version": "2.1",
+      "id": "relationship--rel-0016-142b072e",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "relationship_type": "uses",
+      "source_ref": "threat-actor--apt29-cozy-bear-001",
+      "target_ref": "infrastructure--apt29-c2-network",
+      "description": "APT29 operates the C2 infrastructure for PHANTOM BEAR.",
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+    },
+    {
+      "type": "relationship",
+      "spec_version": "2.1",
+      "id": "relationship--rel-0017-fe9d79c1",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "relationship_type": "uses",
+      "source_ref": "threat-actor--apt29-cozy-bear-001",
+      "target_ref": "infrastructure--apt29-phishing-infra",
+      "description": "APT29 uses phishing infrastructure for initial compromise.",
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+    },
+    {
+      "type": "relationship",
+      "spec_version": "2.1",
+      "id": "relationship--rel-0018-084ddaa9",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "relationship_type": "exploits",
+      "source_ref": "threat-actor--apt29-cozy-bear-001",
+      "target_ref": "vulnerability--cve-2023-23397",
+      "description": "APT29 exploited CVE-2023-23397 for zero-click NTLM hash theft.",
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+    },
+    {
+      "type": "relationship",
+      "spec_version": "2.1",
+      "id": "relationship--rel-0019-a84636b9",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "relationship_type": "exploits",
+      "source_ref": "threat-actor--apt29-cozy-bear-001",
+      "target_ref": "vulnerability--cve-2020-10148",
+      "description": "APT29 exploited CVE-2020-10148 in the 2020 SolarWinds campaign.",
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+    },
+    {
+      "type": "relationship",
+      "spec_version": "2.1",
+      "id": "relationship--rel-0020-d7f41578",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "relationship_type": "exploits",
+      "source_ref": "threat-actor--apt29-cozy-bear-001",
+      "target_ref": "vulnerability--cve-2019-19781",
+      "description": "APT29 exploited Citrix CVE-2019-19781 for initial access.",
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+    },
+    {
+      "type": "relationship",
+      "spec_version": "2.1",
+      "id": "relationship--rel-0021-90348424",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--ip-wineloader-c2",
+      "target_ref": "malware--wineloader-apt29-001",
+      "description": "IP 185.220.101.45 is the C2 server for WINELOADER.",
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+    },
+    {
+      "type": "relationship",
+      "spec_version": "2.1",
+      "id": "relationship--rel-0022-ca193948",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--ip-teardrop-c2",
+      "target_ref": "malware--teardrop-apt29-001",
+      "description": "IP 91.108.4.200 is the C2 server for TEARDROP.",
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+    },
+    {
+      "type": "relationship",
+      "spec_version": "2.1",
+      "id": "relationship--rel-0023-ce579507",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--domain-c2-1",
+      "target_ref": "malware--wineloader-apt29-001",
+      "description": "Domain update.microsoftonline-cdn.com is used by WINELOADER for C2.",
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+    },
+    {
+      "type": "relationship",
+      "spec_version": "2.1",
+      "id": "relationship--rel-0024-7bff8d2d",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--domain-c2-2",
+      "target_ref": "malware--teardrop-apt29-001",
+      "description": "Domain cdn-telemetry.azure-api.net hosts the TEARDROP payload.",
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+    },
+    {
+      "type": "relationship",
+      "spec_version": "2.1",
+      "id": "relationship--rel-0025-13583c7f",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--hash-wineloader-sha256",
+      "target_ref": "malware--wineloader-apt29-001",
+      "description": "SHA-256 hash uniquely identifies the WINELOADER DLL.",
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+    },
+    {
+      "type": "relationship",
+      "spec_version": "2.1",
+      "id": "relationship--rel-0026-abf5ab1a",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--hash-teardrop-sha256",
+      "target_ref": "malware--teardrop-apt29-001",
+      "description": "SHA-256 hash uniquely identifies the TEARDROP executable.",
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+    },
+    {
+      "type": "relationship",
+      "spec_version": "2.1",
+      "id": "relationship--rel-0027-9bab7868",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--url-c2-endpoint",
+      "target_ref": "infrastructure--apt29-c2-network",
+      "description": "URL endpoint is the WINELOADER C2 beacon URL.",
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+    },
+    {
+      "type": "relationship",
+      "spec_version": "2.1",
+      "id": "relationship--rel-0028-a7821a3f",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--ip-phishing",
+      "target_ref": "campaign--phantom-bear-2023",
+      "description": "Phishing IP 194.165.16.78 is attributed to PHANTOM BEAR.",
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+    },
+    {
+      "type": "relationship",
+      "spec_version": "2.1",
+      "id": "relationship--rel-0029-198575ba",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--domain-phish",
+      "target_ref": "campaign--phantom-bear-2023",
+      "description": "Credential phishing domain is attributed to PHANTOM BEAR.",
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+    },
+    {
+      "type": "relationship",
+      "spec_version": "2.1",
+      "id": "relationship--rel-0030-86bb2ba8",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "relationship_type": "communicates-with",
+      "source_ref": "malware--wineloader-apt29-001",
+      "target_ref": "infrastructure--apt29-c2-network",
+      "description": "WINELOADER communicates with the APT29 C2 infrastructure via HTTPS.",
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+    },
+    {
+      "type": "relationship",
+      "spec_version": "2.1",
+      "id": "relationship--rel-0031-169dbba5",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "relationship_type": "communicates-with",
+      "source_ref": "malware--teardrop-apt29-001",
+      "target_ref": "infrastructure--apt29-c2-network",
+      "description": "TEARDROP communicates with C2 infrastructure to deliver Cobalt Strike.",
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+    },
+    {
+      "type": "relationship",
+      "spec_version": "2.1",
+      "id": "relationship--rel-0032-59ed20a3",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--mitigations-apt29",
+      "target_ref": "threat-actor--apt29-cozy-bear-001",
+      "description": "Recommended mitigations address APT29 PHANTOM BEAR TTPs.",
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+    },
+    {
+      "type": "relationship",
+      "spec_version": "2.1",
+      "id": "relationship--rel-0033-3a8bcdfb",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "relationship_type": "mitigates",
+      "source_ref": "course-of-action--mitigations-apt29",
+      "target_ref": "malware--wineloader-apt29-001",
+      "description": "COA includes detection and remediation of WINELOADER.",
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+    },
+    {
+      "type": "report",
+      "spec_version": "2.1",
+      "id": "report--apt29-phantom-bear-2024",
+      "created": "2024-03-15T08:00:00.000Z",
+      "modified": "2024-03-15T08:00:00.000Z",
+      "name": "APT29 Cozy Bear \u2014 Operation PHANTOM BEAR Threat Intelligence Report",
+      "description": "Comprehensive STIX 2.1 intelligence report covering APT29 threat actor profile, Operation PHANTOM BEAR campaign, malware families (WINELOADER, TEARDROP, SUNBURST), MITRE ATT&CK TTPs, indicators of compromise, infrastructure, vulnerabilities, and recommended mitigations.",
+      "report_types": [
+        "threat-actor",
+        "malware",
+        "campaign",
+        "attack-pattern"
+      ],
+      "published": "2024-03-15T08:00:00.000Z",
+      "object_refs": [
+        "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+        "threat-actor--apt29-cozy-bear-001",
+        "campaign--phantom-bear-2023",
+        "malware--wineloader-apt29-001",
+        "malware--teardrop-apt29-001",
+        "malware--sunburst-apt29-001",
+        "attack-pattern--t1566001",
+        "attack-pattern--t1055012",
+        "attack-pattern--t1547001",
+        "attack-pattern--t1071001",
+        "attack-pattern--t1573001",
+        "attack-pattern--t1003001",
+        "attack-pattern--t1027",
+        "attack-pattern--t1041",
+        "attack-pattern--t1078",
+        "attack-pattern--t1195002",
+        "indicator--ip-wineloader-c2",
+        "indicator--ip-teardrop-c2",
+        "indicator--ip-phishing",
+        "indicator--domain-c2-1",
+        "indicator--domain-c2-2",
+        "indicator--domain-phish",
+        "indicator--hash-wineloader-sha256",
+        "indicator--hash-teardrop-sha256",
+        "indicator--url-c2-endpoint",
+        "infrastructure--apt29-c2-network",
+        "infrastructure--apt29-phishing-infra",
+        "vulnerability--cve-2023-23397",
+        "vulnerability--cve-2020-10148",
+        "vulnerability--cve-2019-19781",
+        "course-of-action--mitigations-apt29",
+        "relationship--rel-0000-08248492",
+        "relationship--rel-0001-16ae2630",
+        "relationship--rel-0002-c53494e8",
+        "relationship--rel-0003-860f2f35",
+        "relationship--rel-0004-f5ad67e4",
+        "relationship--rel-0005-4f843e40",
+        "relationship--rel-0006-de8af565",
+        "relationship--rel-0007-3adba1f4",
+        "relationship--rel-0008-702f2338",
+        "relationship--rel-0009-3464c158",
+        "relationship--rel-0010-1e2a8e41",
+        "relationship--rel-0011-df9b6be5",
+        "relationship--rel-0012-f6dbc2a3",
+        "relationship--rel-0013-143e3b9d",
+        "relationship--rel-0014-49e53410",
+        "relationship--rel-0015-53319dca",
+        "relationship--rel-0016-142b072e",
+        "relationship--rel-0017-fe9d79c1",
+        "relationship--rel-0018-084ddaa9",
+        "relationship--rel-0019-a84636b9",
+        "relationship--rel-0020-d7f41578",
+        "relationship--rel-0021-90348424",
+        "relationship--rel-0022-ca193948",
+        "relationship--rel-0023-ce579507",
+        "relationship--rel-0024-7bff8d2d",
+        "relationship--rel-0025-13583c7f",
+        "relationship--rel-0026-abf5ab1a",
+        "relationship--rel-0027-9bab7868",
+        "relationship--rel-0028-a7821a3f",
+        "relationship--rel-0029-198575ba",
+        "relationship--rel-0030-86bb2ba8",
+        "relationship--rel-0031-169dbba5",
+        "relationship--rel-0032-59ed20a3",
+        "relationship--rel-0033-3a8bcdfb"
+      ],
+      "external_references": [
+        {
+          "source_name": "CTI Report",
+          "description": "Original APT29 CTI PDF Report",
+          "external_id": "CTI-2024-APT29-0042"
+        }
+      ],
+      "created_by_ref": "identity--a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      "confidence": 85,
+      "labels": [
+        "apt29",
+        "cozy-bear",
+        "russia",
+        "espionage",
+        "phantom-bear"
+      ]
+    }
+  ]
+}
